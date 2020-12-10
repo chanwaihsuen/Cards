@@ -13,13 +13,14 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
+      "buildNumber": "1.0.1",
       "supportsTablet": false,
       "bundleIdentifier": "com.celeste.babycards",
-      "buildNumber": "1.0.1"
+      "config": {
+        "usesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
