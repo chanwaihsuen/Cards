@@ -7,14 +7,8 @@ import ScreenHeading from '../features/base/ScreenHeading'
 
 export default function DashboardScreen() {
   const navigation = useNavigation()
-
-  const [isSwitchOn, setIsSwitchOn] = React.useState(false)
-
-  const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn)
-
-  const generateCardPressed = () => {
-    navigation.navigate('Cards')
-  }
+  const [isSwitchTxtOn, setIsSwitchTxtOn] = React.useState(false)
+  const [isSwitchImgOn, setIsSwitchImgOn] = React.useState(false)
 
   return (
     <SafeAreaView>
@@ -23,16 +17,16 @@ export default function DashboardScreen() {
         <View style={[styles.content]}>
           <View style={[styles.switch]}>
             <Subheading>
-              Show Text <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
+              Show Text <Switch value={isSwitchTxtOn} onValueChange={() => setIsSwitchTxtOn(!isSwitchTxtOn)} />
             </Subheading>
           </View>
           <View style={[styles.switch]}>
             <Subheading>
-              Show Images <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
+              Show Images <Switch value={isSwitchImgOn} onValueChange={() => setIsSwitchImgOn(!isSwitchImgOn)} />
             </Subheading>
           </View>
           <View style={[styles.switch]}>
-            <Button icon="cards" mode="contained" onPress={generateCardPressed}>
+            <Button icon="cards" mode="contained" onPress={() => navigation.navigate('Cards')}>
               Generate Cards
             </Button>
           </View>
