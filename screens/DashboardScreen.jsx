@@ -5,6 +5,8 @@ import { StyleSheet, Text, View } from 'react-native'
 import SafeAreaView from '../features/base/SafeAreaView'
 import ScreenHeading from '../features/base/ScreenHeading'
 
+import LogoSvg from '../assets/svg/logo'
+
 export default function DashboardScreen() {
   const navigation = useNavigation()
   const [isSwitchTxtOn, setIsSwitchTxtOn] = React.useState(false)
@@ -15,6 +17,9 @@ export default function DashboardScreen() {
       <ScreenHeading>Settings For Cards</ScreenHeading>
       <View style={[styles.body]}>
         <View style={[styles.content]}>
+          <View>
+            <LogoSvg />
+          </View>
           <View style={[styles.switch]}>
             <Subheading>
               Show Text <Switch value={isSwitchTxtOn} onValueChange={() => setIsSwitchTxtOn(!isSwitchTxtOn)} />
