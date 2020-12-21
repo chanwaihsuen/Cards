@@ -15,11 +15,13 @@ export default function DashboardScreen() {
 
   return (
     <SafeAreaView>
-      <ScreenHeading>Settings For Cards</ScreenHeading>
       <View style={[styles.body]}>
         <View style={[styles.content]}>
           <View>
             <LogoSvg />
+          </View>
+          <View style={[styles.switch]}>
+            <Text style={[styles.contentText]}>Select a flash card category</Text>
           </View>
           <View style={[styles.switch]}>
             <Subheading>
@@ -55,6 +57,11 @@ const styles = StyleSheet.create({
   },
   switch: {
     textAlign: 'left',
+    marginVertical: 16,
+  },
+  contentText: {
+    fontFamily: 'Campton-Medium',
+    textAlign: 'center',
     marginVertical: 16,
   },
 })
