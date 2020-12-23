@@ -9,7 +9,7 @@ const RootStack = createStackNavigator()
 function RootNavigator() {
   return (
     <RootStack.Navigator screenOptions={{ headerShown: false }}>
-      <RootStack.Screen name="Dashboard" component={DashboardNavigator} />
+      <RootStack.Screen name="Main" component={DashboardNavigator} />
     </RootStack.Navigator>
   )
 }

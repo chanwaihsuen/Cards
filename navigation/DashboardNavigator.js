@@ -8,7 +8,7 @@ const Stack = createStackNavigator()
 
 export default function DashboardNavigator() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Dashboard" component={DashboardScreen} />
       <Stack.Screen name="Cards" component={CardsScreen} />
     </Stack.Navigator>

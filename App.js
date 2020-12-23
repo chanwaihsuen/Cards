@@ -13,6 +13,7 @@ const theme = { ...DefaultTheme }
 
 export default function App() {
   let [fontsLoaded] = useFonts({
+    'Campton-Light': require('./assets/fonts/Campton-Light.otf'),
     'Campton-Medium': require('./assets/fonts/Campton-Medium.otf'),
   })
 

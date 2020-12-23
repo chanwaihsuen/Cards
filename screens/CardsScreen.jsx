@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
-import { Switch, Subheading, Button } from 'react-native-paper'
+import { Ionicons } from '@expo/vector-icons'
 import SafeAreaView from '../features/base/SafeAreaView'
 import ScreenHeading from '../features/base/ScreenHeading'
-import { StyleSheet, Text, View, Dimensions, Image, Animated, PanResponder } from 'react-native'
+import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, Dimensions, Image, Animated, PanResponder } from 'react-native'
+
+const backgroundImage = { uri: require('../assets/background.png') }
 
 const SCREEN_HEIGHT = Dimensions.get('window').height
 const SCREEN_WIDTH = Dimensions.get('window').width
@@ -99,8 +101,8 @@ export default function CardsScreen() {
             style={[
               rotateAndTranslate,
               {
-                height: SCREEN_HEIGHT - 120,
-                width: SCREEN_WIDTH,
+                height: SCREEN_HEIGHT - 220,
+                width: '100%',
                 padding: 10,
                 position: 'absolute',
               },
@@ -125,8 +127,8 @@ export default function CardsScreen() {
               {
                 opacity: nextCardOpacity,
                 transform: [{ scale: nextCardScale }],
-                height: SCREEN_HEIGHT - 120,
-                width: SCREEN_WIDTH,
+                height: SCREEN_HEIGHT - 220,
+                width: '100%',
                 padding: 10,
                 position: 'absolute',
               },
@@ -148,22 +150,37 @@ export default function CardsScreen() {
   }
 
   return (
-    <View style={{ flex: 1 }}>
-      <View style={{ flex: 1 }}>{renderFoods()}</View>
-      <View style={{ height: 60 }} />
-    </View>
+    <SafeAreaView>
+      <ImageBackground source={backgroundImage.uri} style={styles.backgroundImage} />
+      <ScreenHeading>
+        <TouchableOpacity style={[styles.touchBtn]} onPress={() => navigation.goBack()}>
+          <Ionicons name="chevron-back" size={24} color="black" />
+        </TouchableOpacity>
+      </ScreenHeading>
+      <View style={[styles.body]}>
+        <View style={[styles.cardsContainer]}>{renderFoods()}</View>
+      </View>
+    </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT,
+    position: 'absolute',
+    resizeMode: 'cover',
+  },
   body: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-start',
+  },
+  cardsContainer: {
+    flex: 1,
   },
   close: {
     width: 32,
     height: 32,
-    backgroundColor: 'red',
   },
 })
