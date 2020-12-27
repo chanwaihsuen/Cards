@@ -5,7 +5,9 @@ import { useNavigation } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons'
 import SafeAreaView from '../features/base/SafeAreaView'
 import ScreenHeading from '../features/base/ScreenHeading'
-import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, Dimensions, Button, Image, Animated, PanResponder } from 'react-native'
+import { StyleSheet, View, ImageBackground, TouchableOpacity, Dimensions, Button, Image, Animated, PanResponder } from 'react-native'
+
+import Card from '../features/card/Card'
 
 const backgroundImage = { uri: require('../assets/background.png') }
 
@@ -16,70 +18,47 @@ export default function CardsScreen() {
   const navigation = useNavigation()
   const [currentIndex, setCurrentIndex] = useState(0)
 
-  const [isSwitchOn, setIsSwitchOn] = React.useState(false)
-
-  const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn)
-
-  const generateCardPressed = () => {}
-
   const position = new Animated.ValueXY()
 
-  const renderContent = () => (
-    <View
-      style={{
-        backgroundColor: 'white',
-        padding: 16,
-        height: 450,
-      }}>
-      <Text>Swipe down to close</Text>
-    </View>
-  )
+  // const panResponder = PanResponder.create({
+  //   onStartShouldSetPanResponder: (evt, gestureState) => true,
+  //   onPanResponderMove: (evt, gestureState) => {
+  //     position.setValue({ x: gestureState.dx, y: gestureState.dy })
+  //   },
+  //   onPanResponderRelease: (evt, gestureState) => {
+  //     if (gestureState.dx > 120) {
+  //       Animated.spring(position, {
+  //         toValue: { x: SCREEN_WIDTH + 100, y: gestureState.dy },
+  //         useNativeDriver: true,
+  //       }).start(() => {
+  //         setCurrentIndex(currentIndex + 1)
+  //       })
+  //     } else if (gestureState.dx < -120) {
+  //       Animated.spring(position, {
+  //         toValue: { x: -SCREEN_WIDTH - 100, y: gestureState.dy },
+  //         useNativeDriver: true,
+  //       }).start(() => {
+  //         setCurrentIndex(currentIndex + 1)
+  //       })
+  //     } else {
+  //       Animated.spring(position, {
+  //         toValue: { x: 0, y: 0 },
+  //         useNativeDriver: true,
+  //         friction: 4,
+  //       }).start()
+  //     }
+  //   },
+  // })
 
-  const sheetRef = React.useRef(null)
+  // const rotate = position.x.interpolate({
+  //   inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
+  //   outputRange: ['-10deg', '0deg', '10deg'],
+  //   extrapolate: 'clamp',
+  // })
 
-  const panResponder = PanResponder.create({
-    onStartShouldSetPanResponder: (evt, gestureState) => true,
-    onPanResponderMove: (evt, gestureState) => {
-      position.setValue({ x: gestureState.dx, y: gestureState.dy })
-    },
-    onPanResponderRelease: (evt, gestureState) => {
-      if (gestureState.dx > 120) {
-        Animated.spring(position, {
-          toValue: { x: SCREEN_WIDTH + 100, y: gestureState.dy },
-          useNativeDriver: true,
-        }).start(() => {
-          setCurrentIndex(currentIndex + 1)
-        })
-      } else if (gestureState.dx < -120) {
-        Animated.spring(position, {
-          toValue: { x: -SCREEN_WIDTH - 100, y: gestureState.dy },
-          useNativeDriver: true,
-        }).start(() => {
-          setCurrentIndex(currentIndex + 1)
-        })
-      } else {
-        Animated.spring(position, {
-          toValue: { x: 0, y: 0 },
-          useNativeDriver: true,
-          friction: 4,
-        }).start()
-      }
-    },
-  })
-
-  const rotate = position.x.interpolate({
-    inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
-    outputRange: ['-10deg', '0deg', '10deg'],
-    extrapolate: 'clamp',
-  })
-  const rotateAndTranslate = {
-    transform: [
-      {
-        rotate: rotate,
-      },
-      ...position.getTranslateTransform(),
-    ],
-  }
+  // const rotateAndTranslate = {
+  //   transform: [{ rotate: rotate }, ...position.getTranslateTransform()],
+  // }
 
   const nextCardOpacity = position.x.interpolate({
     inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
@@ -104,36 +83,16 @@ export default function CardsScreen() {
     position.setValue({ x: 0, y: 0 })
   }, [currentIndex])
 
+  const panResponserReleaseStart = () => {
+    setCurrentIndex(currentIndex + 1)
+  }
+
   const renderCards = () => {
     return Cards.map((item, i) => {
       if (i < currentIndex) {
         return null
       } else if (i == currentIndex) {
-        return (
-          <Animated.View
-            {...panResponder.panHandlers}
-            key={i}
-            style={[
-              rotateAndTranslate,
-              {
-                height: SCREEN_HEIGHT - 220,
-                width: '100%',
-                padding: 10,
-                position: 'absolute',
-              },
-            ]}>
-            <Image
-              style={{
-                flex: 1,
-                height: null,
-                width: null,
-                resizeMode: 'cover',
-                borderRadius: 20,
-              }}
-              source={item.uri}
-            />
-          </Animated.View>
-        )
+        return <Card key={i} index={i} item={item} position={position} panResponserReleaseStart={panResponserReleaseStart} />
       } else {
         return (
           <Animated.View
@@ -142,22 +101,10 @@ export default function CardsScreen() {
               {
                 opacity: nextCardOpacity,
                 transform: [{ scale: nextCardScale }],
-                height: SCREEN_HEIGHT - 220,
-                width: '100%',
-                padding: 10,
-                position: 'absolute',
               },
+              styles.card,
             ]}>
-            <Image
-              style={{
-                flex: 1,
-                height: null,
-                width: null,
-                resizeMode: 'cover',
-                borderRadius: 20,
-              }}
-              source={item.uri}
-            />
+            <Image style={styles.image} source={item.uri} />
           </Animated.View>
         )
       }
@@ -166,8 +113,6 @@ export default function CardsScreen() {
 
   return (
     <SafeAreaView>
-      <Button title="Open Bottom Sheet" onPress={() => sheetRef.current.snapTo(0)} />
-
       <ImageBackground source={backgroundImage.uri} style={styles.backgroundImage} />
       <ScreenHeading>
         <TouchableOpacity style={[styles.touchBtn]} onPress={() => navigation.goBack()}>
@@ -178,8 +123,6 @@ export default function CardsScreen() {
       <View style={[styles.body]}>
         <View style={[styles.cardsContainer]}>{renderCards()}</View>
       </View>
-
-      <BottomSheet ref={sheetRef} snapPoints={[450, 300, 0]} borderRadius={10} renderContent={renderContent} />
     </SafeAreaView>
   )
 }
@@ -198,6 +141,19 @@ const styles = StyleSheet.create({
   },
   cardsContainer: {
     flex: 1,
+  },
+  card: {
+    height: SCREEN_HEIGHT - 220,
+    width: '100%',
+    padding: 10,
+    position: 'absolute',
+  },
+  image: {
+    flex: 1,
+    height: null,
+    width: null,
+    resizeMode: 'cover',
+    borderRadius: 20,
   },
   close: {
     width: 32,
