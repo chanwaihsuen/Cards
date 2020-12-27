@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
+// import Animated from 'react-native-reanimated'
+import BottomSheet from 'reanimated-bottom-sheet'
 import { useNavigation } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons'
 import SafeAreaView from '../features/base/SafeAreaView'
 import ScreenHeading from '../features/base/ScreenHeading'
-import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, Dimensions, Image, Animated, PanResponder } from 'react-native'
+import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, Dimensions, Button, Image, Animated, PanResponder } from 'react-native'
 
 const backgroundImage = { uri: require('../assets/background.png') }
 
@@ -21,6 +23,19 @@ export default function CardsScreen() {
   const generateCardPressed = () => {}
 
   const position = new Animated.ValueXY()
+
+  const renderContent = () => (
+    <View
+      style={{
+        backgroundColor: 'white',
+        padding: 16,
+        height: 450,
+      }}>
+      <Text>Swipe down to close</Text>
+    </View>
+  )
+
+  const sheetRef = React.useRef(null)
 
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: (evt, gestureState) => true,
@@ -77,7 +92,7 @@ export default function CardsScreen() {
     extrapolate: 'clamp',
   })
 
-  const Foods = [
+  const Cards = [
     { id: '0', uri: require('../assets/0.png') },
     { id: '1', uri: require('../assets/1.png') },
     { id: '2', uri: require('../assets/2.png') },
@@ -89,8 +104,8 @@ export default function CardsScreen() {
     position.setValue({ x: 0, y: 0 })
   }, [currentIndex])
 
-  const renderFoods = () => {
-    return Foods.map((item, i) => {
+  const renderCards = () => {
+    return Cards.map((item, i) => {
       if (i < currentIndex) {
         return null
       } else if (i == currentIndex) {
@@ -151,15 +166,20 @@ export default function CardsScreen() {
 
   return (
     <SafeAreaView>
+      <Button title="Open Bottom Sheet" onPress={() => sheetRef.current.snapTo(0)} />
+
       <ImageBackground source={backgroundImage.uri} style={styles.backgroundImage} />
       <ScreenHeading>
         <TouchableOpacity style={[styles.touchBtn]} onPress={() => navigation.goBack()}>
           <Ionicons name="chevron-back" size={24} color="black" />
         </TouchableOpacity>
       </ScreenHeading>
+
       <View style={[styles.body]}>
-        <View style={[styles.cardsContainer]}>{renderFoods()}</View>
+        <View style={[styles.cardsContainer]}>{renderCards()}</View>
       </View>
+
+      <BottomSheet ref={sheetRef} snapPoints={[450, 300, 0]} borderRadius={10} renderContent={renderContent} />
     </SafeAreaView>
   )
 }
