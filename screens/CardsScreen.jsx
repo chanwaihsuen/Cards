@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons'
 import SafeAreaView from '../features/base/SafeAreaView'
 import ScreenHeading from '../features/base/ScreenHeading'
-import { StyleSheet, View, ImageBackground, TouchableOpacity, Dimensions, Button, Image, Animated, PanResponder } from 'react-native'
+import { StyleSheet, View, ImageBackground, Text, TouchableOpacity, Dimensions, Button, Image, Animated, PanResponder } from 'react-native'
 
 import Card from '../features/card/Card'
 
@@ -17,6 +17,7 @@ const SCREEN_WIDTH = Dimensions.get('window').width
 export default function CardsScreen() {
   const navigation = useNavigation()
   const [currentIndex, setCurrentIndex] = useState(0)
+  const sheetRef = React.useRef(null)
 
   const position = new Animated.ValueXY()
 
@@ -111,19 +112,30 @@ export default function CardsScreen() {
     }).reverse()
   }
 
-  return (
-    <SafeAreaView>
-      <ImageBackground source={backgroundImage.uri} style={styles.backgroundImage} />
-      <ScreenHeading>
-        <TouchableOpacity style={[styles.touchBtn]} onPress={() => navigation.goBack()}>
-          <Ionicons name="chevron-back" size={24} color="black" />
-        </TouchableOpacity>
-      </ScreenHeading>
+  const renderBottomSheetContent = () => (
+    <View style={styles.bottomSheet}>
+      <Text style={styles.bottomSheetHeader}>Select the options</Text>
+    </View>
+  )
 
-      <View style={[styles.body]}>
+  return (
+    <React.Fragment>
+      <SafeAreaView>
+        <ImageBackground source={backgroundImage.uri} style={styles.backgroundImage} />
+        <View style={styles.header}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Ionicons name="chevron-back" size={28} color="white" />
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => sheetRef.current.snapTo(0)}>
+            <Ionicons name="settings-outline" size={28} color="white" />
+          </TouchableOpacity>
+        </View>
+
         <View style={[styles.cardsContainer]}>{renderCards()}</View>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+      <BottomSheet ref={sheetRef} initialSnap={2} snapPoints={[450, 300, 0]} borderRadius={10} renderContent={renderBottomSheetContent} />
+    </React.Fragment>
   )
 }
 
@@ -134,13 +146,20 @@ const styles = StyleSheet.create({
     position: 'absolute',
     resizeMode: 'cover',
   },
-  body: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
+
+  header: {
+    flexShrink: 0,
+    marginLeft: 16,
+    marginRight: 16,
+    marginBottom: 16,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    // backgroundColor: 'red',
   },
   cardsContainer: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
   },
   card: {
     height: SCREEN_HEIGHT - 220,
@@ -155,8 +174,14 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     borderRadius: 20,
   },
-  close: {
-    width: 32,
-    height: 32,
+  bottomSheet: {
+    backgroundColor: 'white',
+    padding: 32,
+    height: 450,
+  },
+  bottomSheetHeader: {
+    fontFamily: 'Campton-Light',
+    textAlign: 'left',
+    fontSize: 24,
   },
 })
