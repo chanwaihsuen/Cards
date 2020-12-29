@@ -15,6 +15,7 @@ export default function App() {
   let [fontsLoaded] = useFonts({
     'Campton-Light': require('./assets/fonts/Campton-Light.otf'),
     'Campton-Medium': require('./assets/fonts/Campton-Medium.otf'),
+    'Campton-Bold': require('./assets/fonts/Campton-Bold.otf'),
   })
 
   if (!fontsLoaded) {

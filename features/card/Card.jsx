@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { StyleSheet, Dimensions, Image, Animated, PanResponder } from 'react-native'
 
 const SCREEN_HEIGHT = Dimensions.get('window').height
 const SCREEN_WIDTH = Dimensions.get('window').width
 
 export default function Card(props) {
-  const { index, item, position, panResponserReleaseStart } = props
+  const { index, isTopCard, item, position, panResponserReleaseStart } = props
   // const position = new Animated.ValueXY()
   // const [currentIndex, setCurrentIndex] = useState(0)
 
@@ -47,12 +47,38 @@ export default function Card(props) {
     extrapolate: 'clamp',
   })
 
+  const nextCardOpacity = position.x.interpolate({
+    inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
+    outputRange: [1, 0, 1],
+    extrapolate: 'clamp',
+  })
+  const nextCardScale = position.x.interpolate({
+    inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
+    outputRange: [1, 0.8, 1],
+    extrapolate: 'clamp',
+  })
+
+  if (isTopCard) {
+    return (
+      <Animated.View
+        {...panResponder.panHandlers}
+        style={[
+          {
+            transform: [{ rotate: rotate }, ...position.getTranslateTransform()],
+          },
+          styles.card,
+        ]}>
+        <Image style={styles.image} source={item.uri} />
+      </Animated.View>
+    )
+  }
+
   return (
     <Animated.View
-      {...panResponder.panHandlers}
       style={[
         {
-          transform: [{ rotate: rotate }, ...position.getTranslateTransform()],
+          opacity: nextCardOpacity,
+          transform: [{ scale: nextCardScale }],
         },
         styles.card,
       ]}>
