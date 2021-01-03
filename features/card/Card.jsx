@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { StyleSheet, Dimensions, Image, Animated, PanResponder } from 'react-native'
 
-const SCREEN_HEIGHT = Dimensions.get('window').height
+// const SCREEN_HEIGHT = Dimensions.get('window').height
 const SCREEN_WIDTH = Dimensions.get('window').width
 
 export default function Card(props) {
@@ -101,7 +101,7 @@ export default function Card(props) {
         <Image style={styles.image} source={item.uri} />
       </Animated.View>
     )
-  } else if (currentIndex + 3 === index && totalLength - 1 !== index) {
+  } else if (currentIndex + 3 === index) {
     return (
       <Animated.View
         style={[
