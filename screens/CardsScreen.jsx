@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import SafeAreaView from '../features/base/SafeAreaView'
 import ScreenHeading from '../features/base/ScreenHeading'
 import BottomSheetOptions from '../features/card/BottomSheetOptions'
+import { Ionicons } from '@expo/vector-icons'
+import { FontAwesome } from '@expo/vector-icons'
 import { StyleSheet, View, ImageBackground, Text, Switch, Dimensions, Button, Image, Animated, PanResponder } from 'react-native'
 
 import Card from '../features/card/Card'
@@ -17,11 +19,31 @@ export default function CardsScreen() {
 
   const position = new Animated.ValueXY()
 
+  // const getRandomNumber = () => {
+  //   return Math.floor(Math.random() * 20) - 6
+  // }
+
   const Cards = [
-    { id: '0', uri: require('../assets/cards/b.png') },
-    { id: '1', uri: require('../assets/cards/e.png') },
-    { id: '2', uri: require('../assets/cards/m.png') },
-    { id: '3', uri: require('../assets/cards/p.png') },
+    { uri: require('../assets/cards/b.png'), deg: '6' },
+    { uri: require('../assets/cards/e.png'), deg: '-6' },
+    { uri: require('../assets/cards/m.png'), deg: '-3' },
+    { uri: require('../assets/cards/p.png'), deg: '3' },
+    { uri: require('../assets/cards/b.png'), deg: '6' },
+    { uri: require('../assets/cards/e.png'), deg: '-6' },
+    { uri: require('../assets/cards/m.png'), deg: '-3' },
+    { uri: require('../assets/cards/p.png'), deg: '3' },
+    { uri: require('../assets/cards/b.png'), deg: '6' },
+    { uri: require('../assets/cards/e.png'), deg: '-6' },
+    { uri: require('../assets/cards/m.png'), deg: '-3' },
+    { uri: require('../assets/cards/p.png'), deg: '3' },
+    { uri: require('../assets/cards/b.png'), deg: '6' },
+    { uri: require('../assets/cards/e.png'), deg: '-6' },
+    { uri: require('../assets/cards/m.png'), deg: '-3' },
+    { uri: require('../assets/cards/p.png'), deg: '3' },
+    { uri: require('../assets/cards/b.png'), deg: '6' },
+    { uri: require('../assets/cards/e.png'), deg: '-6' },
+    { uri: require('../assets/cards/m.png'), deg: '-3' },
+    { uri: require('../assets/cards/p.png'), deg: '3' },
   ]
 
   useEffect(() => {
@@ -36,10 +58,18 @@ export default function CardsScreen() {
     return Cards.map((item, i) => {
       if (i < currentIndex) {
         return null
-      } else if (i == currentIndex) {
-        return <Card key={i} isTopCard={true} index={i} item={item} position={position} panResponserReleaseStart={panResponserReleaseStart} />
       } else {
-        return <Card key={i} isTopCard={false} index={i} item={item} position={position} />
+        return (
+          <Card
+            key={i}
+            totalLength={Cards.length}
+            currentIndex={currentIndex}
+            index={i}
+            item={item}
+            position={position}
+            panResponserReleaseStart={panResponserReleaseStart}
+          />
+        )
       }
     }).reverse()
   }
@@ -50,6 +80,10 @@ export default function CardsScreen() {
         <ImageBackground source={backgroundImage.uri} style={styles.backgroundImage} />
         <ScreenHeading sheetRef={sheetRef} />
         <View style={[styles.cardsContainer]}>{renderCards()}</View>
+        <View style={[styles.cardSortContainer]}>
+          <FontAwesome name="refresh" size={24} color="white" />
+          <Text style={[styles.cardSortLabel]}>Randomise</Text>
+        </View>
       </SafeAreaView>
       <BottomSheetOptions sheetRef={sheetRef} />
     </React.Fragment>
@@ -65,7 +99,24 @@ const styles = StyleSheet.create({
   },
   cardsContainer: {
     flex: 1,
+    flexGrow: 1,
+    minHeight: 500,
     justifyContent: 'center',
-    alignItems: 'flex-start',
+    alignItems: 'center',
+  },
+  cardSortContainer: {
+    flex: 1,
+    flexGrow: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  cardSortLabel: {
+    fontFamily: 'Campton-Light',
+    textAlign: 'left',
+    color: 'white',
+    fontSize: 18,
+    marginLeft: 8,
   },
 })

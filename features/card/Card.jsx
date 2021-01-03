@@ -1,13 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, Dimensions, Image, Animated, PanResponder } from 'react-native'
 
 const SCREEN_HEIGHT = Dimensions.get('window').height
 const SCREEN_WIDTH = Dimensions.get('window').width
 
 export default function Card(props) {
-  const { index, isTopCard, item, position, panResponserReleaseStart } = props
-  // const position = new Animated.ValueXY()
-  // const [currentIndex, setCurrentIndex] = useState(0)
+  const { index, currentIndex, totalLength, item, position, panResponserReleaseStart } = props
 
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: (evt, gestureState) => true,
@@ -58,7 +56,13 @@ export default function Card(props) {
     extrapolate: 'clamp',
   })
 
-  if (isTopCard) {
+  const nextCardRotate = position.x.interpolate({
+    inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
+    outputRange: ['0deg', `${item.deg}deg`, '0deg'],
+    extrapolate: 'clamp',
+  })
+
+  if (currentIndex === index) {
     return (
       <Animated.View
         {...panResponder.panHandlers}
@@ -73,31 +77,70 @@ export default function Card(props) {
     )
   }
 
-  return (
-    <Animated.View
-      style={[
-        {
-          opacity: nextCardOpacity,
-          transform: [{ scale: nextCardScale }],
-        },
-        styles.card,
-      ]}>
-      <Image style={styles.image} source={item.uri} />
-    </Animated.View>
-  )
+  if (currentIndex + 1 === index) {
+    return (
+      <Animated.View
+        style={[
+          {
+            transform: [{ rotate: nextCardRotate }],
+          },
+          styles.card,
+        ]}>
+        <Image style={styles.image} source={item.uri} />
+      </Animated.View>
+    )
+  } else if (currentIndex + 2 === index) {
+    return (
+      <Animated.View
+        style={[
+          {
+            transform: [{ rotate: `${item.deg}deg` }],
+          },
+          styles.card,
+        ]}>
+        <Image style={styles.image} source={item.uri} />
+      </Animated.View>
+    )
+  } else if (currentIndex + 3 === index && totalLength - 1 !== index) {
+    return (
+      <Animated.View
+        style={[
+          {
+            opacity: nextCardOpacity,
+            transform: [{ rotate: `${item.deg}deg` }],
+          },
+          styles.card,
+        ]}>
+        <Image style={styles.image} source={item.uri} />
+      </Animated.View>
+    )
+  } else {
+    return (
+      <Animated.View
+        style={[
+          {
+            opacity: 0,
+            transform: [{ rotate: `${item.deg}deg` }],
+          },
+          styles.card,
+        ]}>
+        <Image style={styles.image} source={item.uri} />
+      </Animated.View>
+    )
+  }
 }
 
 const styles = StyleSheet.create({
   card: {
-    height: SCREEN_HEIGHT - 220,
-    width: '100%',
+    height: 500,
+    width: 295,
     padding: 10,
     position: 'absolute',
   },
   image: {
     flex: 1,
-    height: null,
-    width: null,
+    height: '100%',
+    width: '100%',
     resizeMode: 'cover',
     borderRadius: 20,
   },
