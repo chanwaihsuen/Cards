@@ -1,4 +1,4 @@
-import { Animated, Dimensions, Image, PanResponder, StyleSheet } from 'react-native'
+import { Animated, Dimensions, Image, PanResponder, StyleSheet, Text } from 'react-native'
 
 import React from 'react'
 
@@ -6,7 +6,7 @@ import React from 'react'
 const SCREEN_WIDTH = Dimensions.get('window').width
 
 export default function Card(props) {
-  const { index, currentIndex, totalLength, item, position, panResponserReleaseStart } = props
+  const { index, currentIndex, item, position, panResponserReleaseStart } = props
 
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: (evt, gestureState) => true,
@@ -107,6 +107,7 @@ export default function Card(props) {
           styles.card,
         ]}>
         <Image style={styles.image} source={item.uri} />
+        <Text style={styles.textthree}>3rd: {item.deg}deg</Text>
       </Animated.View>
     )
   } else if (currentIndex + 3 === index) {
@@ -120,6 +121,7 @@ export default function Card(props) {
           },
           styles.card,
         ]}>
+        <Text style={styles.textfour}>4th: {item.deg}deg</Text>
         <Image style={styles.image} source={item.uri} />
       </Animated.View>
     )
@@ -144,8 +146,10 @@ export default function Card(props) {
 
 const styles = StyleSheet.create({
   card: {
-    height: 500,
-    width: 295,
+    // height: 500,
+    // width: 295,
+    height: 300,
+    width: 195,
     padding: 10,
     position: 'absolute',
   },
@@ -155,5 +159,21 @@ const styles = StyleSheet.create({
     width: '100%',
     resizeMode: 'cover',
     borderRadius: 20,
+  },
+  textthree: {
+    position: 'absolute',
+    fontFamily: 'Campton-Light',
+    textAlign: 'left',
+    color: 'white',
+    fontSize: 20,
+    bottom: -50,
+  },
+  textfour: {
+    position: 'absolute',
+    fontFamily: 'Campton-Light',
+    textAlign: 'left',
+    color: 'white',
+    fontSize: 20,
+    top: -50,
   },
 })
