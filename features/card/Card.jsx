@@ -46,24 +46,26 @@ export default function Card(props) {
     extrapolate: 'clamp',
   })
 
-  const nextCardOpacity = position.x.interpolate({
-    inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
-    outputRange: [1, 0, 1],
-    extrapolate: 'clamp',
-  })
-  const nextCardScale = position.x.interpolate({
-    inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
-    outputRange: [1, 0.8, 1],
-    extrapolate: 'clamp',
-  })
-
   const nextCardRotate = position.x.interpolate({
     inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
     outputRange: ['0deg', `${item.deg}deg`, '0deg'],
     extrapolate: 'clamp',
   })
 
+  const nextCardOpacity = position.x.interpolate({
+    inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
+    outputRange: [1, 0, 1],
+    extrapolate: 'clamp',
+  })
+
+  // const nextCardScale = position.x.interpolate({
+  //   inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
+  //   outputRange: [1, 0.8, 1],
+  //   extrapolate: 'clamp',
+  // })
+
   if (currentIndex === index) {
+    // TOP CARD
     return (
       <Animated.View
         {...panResponder.panHandlers}
@@ -80,6 +82,7 @@ export default function Card(props) {
   }
 
   if (currentIndex + 1 === index) {
+    // 2nd CARD
     return (
       <Animated.View
         style={[
@@ -93,6 +96,7 @@ export default function Card(props) {
       </Animated.View>
     )
   } else if (currentIndex + 2 === index) {
+    // 3RD CARD
     return (
       <Animated.View
         style={[
@@ -106,6 +110,7 @@ export default function Card(props) {
       </Animated.View>
     )
   } else if (currentIndex + 3 === index) {
+    // 4th CARD
     return (
       <Animated.View
         style={[
@@ -119,19 +124,22 @@ export default function Card(props) {
       </Animated.View>
     )
   } else {
-    return (
-      <Animated.View
-        style={[
-          {
-            opacity: 0,
-            transform: [{ rotate: `${item.deg}deg` }],
-          },
-          styles.card,
-        ]}>
-        <Image style={styles.image} source={item.uri} />
-      </Animated.View>
-    )
+    return <React.Fragment></React.Fragment>
   }
+  // else {
+  //   // OTHERS CARD
+  //   return (
+  //     <Animated.View
+  //       style={[
+  //         {
+  //           opacity: 0,
+  //         },
+  //         styles.card,
+  //       ]}>
+  //       <Image style={styles.image} source={item.uri} />
+  //     </Animated.View>
+  //   )
+  // }
 }
 
 const styles = StyleSheet.create({
