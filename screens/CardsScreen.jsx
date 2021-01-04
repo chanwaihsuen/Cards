@@ -1,12 +1,12 @@
+import { Animated, Button, Dimensions, Image, ImageBackground, PanResponder, StyleSheet, Switch, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
+
+import BottomSheetOptions from '../features/card/BottomSheetOptions'
+import Card from '../features/card/Card'
+import { FontAwesome } from '@expo/vector-icons'
+import { Ionicons } from '@expo/vector-icons'
 import SafeAreaView from '../features/base/SafeAreaView'
 import ScreenHeading from '../features/base/ScreenHeading'
-import BottomSheetOptions from '../features/card/BottomSheetOptions'
-import { Ionicons } from '@expo/vector-icons'
-import { FontAwesome } from '@expo/vector-icons'
-import { StyleSheet, View, ImageBackground, Text, Switch, Dimensions, Button, Image, Animated, PanResponder } from 'react-native'
-
-import Card from '../features/card/Card'
 
 const backgroundImage = { uri: require('../assets/background.png') }
 

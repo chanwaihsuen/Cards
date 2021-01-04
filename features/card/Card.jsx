@@ -1,5 +1,6 @@
+import { Animated, Dimensions, Image, PanResponder, StyleSheet } from 'react-native'
+
 import React from 'react'
-import { StyleSheet, Dimensions, Image, Animated, PanResponder } from 'react-native'
 
 // const SCREEN_HEIGHT = Dimensions.get('window').height
 const SCREEN_WIDTH = Dimensions.get('window').width
@@ -68,6 +69,7 @@ export default function Card(props) {
         {...panResponder.panHandlers}
         style={[
           {
+            opacity: 1,
             transform: [{ rotate: rotate }, ...position.getTranslateTransform()],
           },
           styles.card,
@@ -82,6 +84,7 @@ export default function Card(props) {
       <Animated.View
         style={[
           {
+            opacity: 1,
             transform: [{ rotate: nextCardRotate }],
           },
           styles.card,
@@ -94,6 +97,7 @@ export default function Card(props) {
       <Animated.View
         style={[
           {
+            opacity: 1,
             transform: [{ rotate: `${item.deg}deg` }],
           },
           styles.card,
