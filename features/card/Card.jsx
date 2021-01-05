@@ -1,4 +1,4 @@
-import { Animated, Dimensions, Image, PanResponder, StyleSheet, Text } from 'react-native'
+import { Animated, Dimensions, Image, PanResponder, StyleSheet, Text, View } from 'react-native'
 
 import React from 'react'
 
@@ -98,7 +98,7 @@ export default function Card(props) {
   } else if (currentIndex + 2 === index) {
     // 3RD CARD
     return (
-      <Animated.View
+      <View
         style={[
           {
             opacity: 1,
@@ -108,7 +108,7 @@ export default function Card(props) {
         ]}>
         <Image style={styles.image} source={item.uri} />
         <Text style={styles.textthree}>3rd: {item.deg}deg</Text>
-      </Animated.View>
+      </View>
     )
   } else if (currentIndex + 3 === index) {
     // 4th CARD
