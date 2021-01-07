@@ -1,10 +1,10 @@
-import { Animated, Button, Dimensions, Image, ImageBackground, PanResponder, StyleSheet, Switch, Text, View } from 'react-native'
+import { Animated, Dimensions, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 
 import BottomSheetOptions from '../features/card/BottomSheetOptions'
 import Card from '../features/card/Card'
 import { FontAwesome } from '@expo/vector-icons'
-import { Ionicons } from '@expo/vector-icons'
+import { FontAwesome5 } from '@expo/vector-icons'
 import SafeAreaView from '../features/base/SafeAreaView'
 import ScreenHeading from '../features/base/ScreenHeading'
 
@@ -15,6 +15,7 @@ const SCREEN_WIDTH = Dimensions.get('window').width
 
 export default function CardsScreen() {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [sortType, setSortType] = useState('random')
   const sheetRef = React.useRef(null)
 
   const position = new Animated.ValueXY()
@@ -23,55 +24,96 @@ export default function CardsScreen() {
   //   return Math.floor(Math.random() * 20) - 6
   // }
 
-  const Cards = [
-    { uri: require('../assets/cards/b.png'), deg: '10' },
-    { uri: require('../assets/cards/e.png'), deg: '20' },
-    { uri: require('../assets/cards/m.png'), deg: '30' },
-    { uri: require('../assets/cards/p.png'), deg: '40' },
-    { uri: require('../assets/cards/b.png'), deg: '50' },
-    { uri: require('../assets/cards/e.png'), deg: '60' },
-    { uri: require('../assets/cards/m.png'), deg: '70' },
-    { uri: require('../assets/cards/p.png'), deg: '80' },
-    { uri: require('../assets/cards/b.png'), deg: '90' },
-    { uri: require('../assets/cards/e.png'), deg: '100' },
-    { uri: require('../assets/cards/m.png'), deg: '110' },
-    // { uri: require('../assets/cards/p.png'), deg: '6' },
-    // { uri: require('../assets/cards/b.png'), deg: '2' },
-    // { uri: require('../assets/cards/e.png'), deg: '-6' },
-    // { uri: require('../assets/cards/m.png'), deg: '-8' },
-    // { uri: require('../assets/cards/p.png'), deg: '3' },
-    // { uri: require('../assets/cards/b.png'), deg: '6' },
-    // { uri: require('../assets/cards/e.png'), deg: '-6' },
-    // { uri: require('../assets/cards/m.png'), deg: '-3' },
-    // { uri: require('../assets/cards/p.png'), deg: '3' },
+  const OriginalCards = [
+    { uri: require('../assets/cards/b.png'), deg: '6' },
+    { uri: require('../assets/cards/e.png'), deg: '9' },
+    { uri: require('../assets/cards/m.png'), deg: '6' },
+    { uri: require('../assets/cards/p.png'), deg: '9' },
+    { uri: require('../assets/cards/b.png'), deg: '-6' },
+    { uri: require('../assets/cards/e.png'), deg: '9' },
+    { uri: require('../assets/cards/m.png'), deg: '-9' },
+    { uri: require('../assets/cards/p.png'), deg: '6' },
+    { uri: require('../assets/cards/b.png'), deg: '3' },
+    { uri: require('../assets/cards/e.png'), deg: '4' },
+    { uri: require('../assets/cards/m.png'), deg: '-2' },
+    { uri: require('../assets/cards/p.png'), deg: '6' },
+    { uri: require('../assets/cards/b.png'), deg: '2' },
+    { uri: require('../assets/cards/e.png'), deg: '-6' },
+    { uri: require('../assets/cards/m.png'), deg: '-8' },
+    { uri: require('../assets/cards/p.png'), deg: '3' },
+    { uri: require('../assets/cards/b.png'), deg: '6' },
+    { uri: require('../assets/cards/e.png'), deg: '-6' },
+    { uri: require('../assets/cards/m.png'), deg: '-3' },
+    { uri: require('../assets/cards/p.png'), deg: '3' },
   ]
 
   useEffect(() => {
     position.setValue({ x: 0, y: 0 })
   }, [currentIndex])
 
+  let cards = [...OriginalCards]
+
+  if (sortType === 'random') {
+    cards.sort(() => Math.random() - 0.5)
+  }
+
+  const shuffle = (a) => {
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1))
+      ;[a[i], a[j]] = [a[j], a[i]]
+    }
+    return a
+  }
+
   const panResponserReleaseStart = () => {
     setCurrentIndex(currentIndex + 1)
   }
 
   const renderCards = () => {
-    return Cards.map((item, i) => {
-      if (i < currentIndex) {
-        return null
-      } else {
-        return (
-          <Card
-            key={i}
-            totalLength={Cards.length}
-            currentIndex={currentIndex}
-            index={i}
-            item={item}
-            position={position}
-            panResponserReleaseStart={panResponserReleaseStart}
-          />
-        )
-      }
-    }).reverse()
+    return cards
+      .map((item, i) => {
+        if (i < currentIndex) {
+          return null
+        } else {
+          return (
+            <Card
+              key={i}
+              totalLength={cards.length}
+              currentIndex={currentIndex}
+              index={i}
+              item={item}
+              position={position}
+              panResponserReleaseStart={panResponserReleaseStart}
+            />
+          )
+        }
+      })
+      .reverse()
+  }
+
+  const cardSortHandler = () => {
+    if (sortType === 'random') {
+      setSortType('alphabetical')
+    } else {
+      setSortType('random')
+    }
+  }
+
+  const renderCardSort = () => {
+    if (sortType === 'random') {
+      return (
+        <React.Fragment>
+          <FontAwesome5 name="list" size={24} color="white" />
+          <Text style={[styles.cardSortLabel]}>By alphabetical order</Text>
+        </React.Fragment>
+      )
+    }
+    return (
+      <React.Fragment>
+        <FontAwesome name="refresh" size={24} color="white" />
+        <Text style={[styles.cardSortLabel]}>Randomise</Text>
+      </React.Fragment>
+    )
   }
 
   return (
@@ -80,10 +122,9 @@ export default function CardsScreen() {
         <ImageBackground source={backgroundImage.uri} style={styles.backgroundImage} />
         <ScreenHeading sheetRef={sheetRef} />
         <View style={[styles.cardsContainer]}>{renderCards()}</View>
-        <View style={[styles.cardSortContainer]}>
-          <FontAwesome name="refresh" size={24} color="white" />
-          <Text style={[styles.cardSortLabel]}>Randomise</Text>
-        </View>
+        <TouchableOpacity style={[styles.cardSortContainer]} onPress={() => cardSortHandler()}>
+          {renderCardSort()}
+        </TouchableOpacity>
       </SafeAreaView>
       <BottomSheetOptions sheetRef={sheetRef} />
     </React.Fragment>

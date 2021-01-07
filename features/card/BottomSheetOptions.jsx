@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-// import Animated from 'react-native-reanimated'
+import { StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native'
+
 import BottomSheet from 'reanimated-bottom-sheet'
-import { StyleSheet, View, Text, Switch } from 'react-native'
 
 export default function BottomSheetOptions({ sheetRef }) {
   const [isEnabledCaps, setIsEnabledCaps] = useState(false)
@@ -18,11 +18,15 @@ export default function BottomSheetOptions({ sheetRef }) {
     <Switch
       trackColor={{ false: '#ffffff', true: '#266AEF' }}
       thumbColor={isEnabled ? '#ffffff' : '#266AEF'}
-      // ios_backgroundColor="#3e3e3e"
+      // ios_backgroundColor="white"
       onValueChange={toggle}
       value={isEnabled}
     />
   )
+
+  const saveHandler = () => {
+    sheetRef.current.snapTo(1)
+  }
 
   const renderContent = () => (
     <View style={styles.bottomSheet}>
@@ -43,17 +47,20 @@ export default function BottomSheetOptions({ sheetRef }) {
         <Text style={styles.optionHeader}>Word</Text>
         <StyledSwitch isEnabled={isEnabledWord} toggle={toggleWord} />
       </View>
+      <TouchableOpacity style={styles.saveButton} onPress={() => saveHandler()}>
+        <Text style={styles.saveLabel}>Save</Text>
+      </TouchableOpacity>
     </View>
   )
 
-  return <BottomSheet ref={sheetRef} initialSnap={1} snapPoints={[400, 0]} borderRadius={10} renderContent={renderContent} />
+  return <BottomSheet ref={sheetRef} initialSnap={1} snapPoints={[460, 0]} borderRadius={10} renderContent={renderContent} />
 }
 
 const styles = StyleSheet.create({
   bottomSheet: {
     backgroundColor: 'white',
     padding: 32,
-    height: 450,
+    height: 460,
   },
   bottomSheetHeader: {
     fontFamily: 'Campton-Light',
@@ -71,5 +78,20 @@ const styles = StyleSheet.create({
     fontFamily: 'Campton-Bold',
     textAlign: 'left',
     fontSize: 24,
+  },
+  saveButton: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 50,
+    height: 60,
+    backgroundColor: '#266AEF',
+    marginTop: 24,
+  },
+  saveLabel: {
+    color: 'white',
+    fontFamily: 'Campton-Bold',
+    textAlign: 'center',
+    fontSize: 18,
   },
 })

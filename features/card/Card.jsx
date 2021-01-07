@@ -107,7 +107,6 @@ export default function Card(props) {
           styles.card,
         ]}>
         <Image style={styles.image} source={item.uri} />
-        <Text style={styles.textthree}>3rd: {item.deg}deg</Text>
       </View>
     )
   } else if (currentIndex + 3 === index) {
@@ -121,35 +120,18 @@ export default function Card(props) {
           },
           styles.card,
         ]}>
-        <Text style={styles.textfour}>4th: {item.deg}deg</Text>
         <Image style={styles.image} source={item.uri} />
       </Animated.View>
     )
   } else {
     return <React.Fragment></React.Fragment>
   }
-  // else {
-  //   // OTHERS CARD
-  //   return (
-  //     <Animated.View
-  //       style={[
-  //         {
-  //           opacity: 0,
-  //         },
-  //         styles.card,
-  //       ]}>
-  //       <Image style={styles.image} source={item.uri} />
-  //     </Animated.View>
-  //   )
-  // }
 }
 
 const styles = StyleSheet.create({
   card: {
-    // height: 500,
-    // width: 295,
-    height: 300,
-    width: 195,
+    height: 500,
+    width: 295,
     padding: 10,
     position: 'absolute',
   },
