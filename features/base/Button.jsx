@@ -1,5 +1,6 @@
-import React from 'react';
-import { StyleSheet, Text, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, TouchableHighlight } from 'react-native'
+
+import React from 'react'
 
 export default function Button({ style, onPress, children, disabled, ...otherProps }) {
   return (
@@ -11,7 +12,7 @@ export default function Button({ style, onPress, children, disabled, ...otherPro
       {...otherProps}>
       <Text style={styles.text}>{children}</Text>
     </TouchableHighlight>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -32,4 +33,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
-});
+})

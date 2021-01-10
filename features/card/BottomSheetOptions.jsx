@@ -1,11 +1,20 @@
+import { Dimensions, StyleSheet, Switch, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import React, { useState } from 'react'
-import { StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native'
+import { setCaps, setPicture, setSmallCaps, setWord } from '../settings/settingsSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
 import BottomSheet from 'reanimated-bottom-sheet'
 
+const SCREEN_HEIGHT = Dimensions.get('window').height
+const SCREEN_WIDTH = Dimensions.get('window').width
+
 export default function BottomSheetOptions({ sheetRef }) {
-  const [isEnabledCaps, setIsEnabledCaps] = useState(false)
-  const [isEnabledSmallCaps, setIsEnabledSmallCaps] = useState(false)
+  const dispatch = useDispatch()
+  const useCaps = useSelector((state) => state.caps)
+  const smallCaps = useSelector((state) => state.caps)
+
+  const [isEnabledCaps, setIsEnabledCaps] = useState(useCaps)
+  const [isEnabledSmallCaps, setIsEnabledSmallCaps] = useState(smallCaps)
   const [isEnabledPicture, setIsEnabledPicture] = useState(false)
   const [isEnabledWord, setIsEnabledWord] = useState(false)
 
@@ -25,6 +34,14 @@ export default function BottomSheetOptions({ sheetRef }) {
   )
 
   const saveHandler = () => {
+    dispatch(setCaps(isEnabledCaps))
+    dispatch(setSmallCaps(isEnabledSmallCaps))
+    dispatch(setPicture(isEnabledPicture))
+    dispatch(setWord(isEnabledWord))
+    sheetRef.current.snapTo(1)
+  }
+
+  const dismissBottomSheet = () => {
     sheetRef.current.snapTo(1)
   }
 
@@ -53,10 +70,21 @@ export default function BottomSheetOptions({ sheetRef }) {
     </View>
   )
 
-  return <BottomSheet ref={sheetRef} initialSnap={1} snapPoints={[460, 0]} borderRadius={10} renderContent={renderContent} />
+  return (
+    <TouchableWithoutFeedback onPress={() => dismissBottomSheet()}>
+      <BottomSheet ref={sheetRef} initialSnap={1} snapPoints={[460, 0]} borderRadius={10} renderContent={renderContent} />
+    </TouchableWithoutFeedback>
+  )
 }
 
 const styles = StyleSheet.create({
+  pressable: {
+    position: 'absolute',
+    width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT,
+    top: -600,
+    backgroundColor: 'red',
+  },
   bottomSheet: {
     backgroundColor: 'white',
     padding: 32,

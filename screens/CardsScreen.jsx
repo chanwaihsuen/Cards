@@ -1,8 +1,8 @@
 import { Animated, Dimensions, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 
+import AnimatedCard from '../features/card/AnimatedCard'
 import BottomSheetOptions from '../features/card/BottomSheetOptions'
-import Card from '../features/card/Card'
 import { FontAwesome } from '@expo/vector-icons'
 import { FontAwesome5 } from '@expo/vector-icons'
 import SafeAreaView from '../features/base/SafeAreaView'
@@ -25,26 +25,10 @@ export default function CardsScreen() {
   // }
 
   const OriginalCards = [
-    { uri: require('../assets/cards/b.png'), deg: '6' },
-    { uri: require('../assets/cards/e.png'), deg: '9' },
-    { uri: require('../assets/cards/m.png'), deg: '6' },
-    { uri: require('../assets/cards/p.png'), deg: '9' },
-    { uri: require('../assets/cards/b.png'), deg: '-6' },
-    { uri: require('../assets/cards/e.png'), deg: '9' },
-    { uri: require('../assets/cards/m.png'), deg: '-9' },
-    { uri: require('../assets/cards/p.png'), deg: '6' },
-    { uri: require('../assets/cards/b.png'), deg: '3' },
-    { uri: require('../assets/cards/e.png'), deg: '4' },
-    { uri: require('../assets/cards/m.png'), deg: '-2' },
-    { uri: require('../assets/cards/p.png'), deg: '6' },
-    { uri: require('../assets/cards/b.png'), deg: '2' },
-    { uri: require('../assets/cards/e.png'), deg: '-6' },
-    { uri: require('../assets/cards/m.png'), deg: '-8' },
-    { uri: require('../assets/cards/p.png'), deg: '3' },
-    { uri: require('../assets/cards/b.png'), deg: '6' },
-    { uri: require('../assets/cards/e.png'), deg: '-6' },
-    { uri: require('../assets/cards/m.png'), deg: '-3' },
-    { uri: require('../assets/cards/p.png'), deg: '3' },
+    { word: 'bread', color: '#EEC45B', letter: 'b', uri: require('../assets/cards/b.png'), deg: '6' },
+    { word: 'egg', color: '#E59A48', letter: 'e', uri: require('../assets/cards/e.png'), deg: '9' },
+    { word: 'milk', color: '#ECC2C0', letter: 'm', uri: require('../assets/cards/m.png'), deg: '6' },
+    { word: 'peach', color: '#FAF1E2', letter: 'p', uri: require('../assets/cards/p.png'), deg: '9' },
   ]
 
   useEffect(() => {
@@ -76,7 +60,7 @@ export default function CardsScreen() {
           return null
         } else {
           return (
-            <Card
+            <AnimatedCard
               key={i}
               totalLength={cards.length}
               currentIndex={currentIndex}

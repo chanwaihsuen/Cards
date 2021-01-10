@@ -3,19 +3,27 @@ import { createSlice } from '@reduxjs/toolkit'
 const settingsSlice = createSlice({
   name: 'settings',
   initialState: {
-    user: null,
-    showWelcomeScreen: false,
+    caps: false,
+    smallCaps: false,
+    picture: false,
+    word: false,
   },
   reducers: {
-    setUser: (state, action) => {
-      state.user = action.payload
+    setCaps: (state, action) => {
+      state.caps = action.payload
     },
-    setShowWelcomeScreen: (state, action) => {
-      state.showWelcomeScreen = action.payload
+    setSmallCaps: (state, action) => {
+      state.smallCaps = action.payload
+    },
+    setPicture: (state, action) => {
+      state.picture = action.payload
+    },
+    setWord: (state, action) => {
+      state.word = action.payload
     },
   },
 })
 
-export const { setUser, setShowWelcomeScreen } = settingsSlice.actions
+export const { setCaps, setSmallCaps, setPicture, setWord } = settingsSlice.actions
 
 export default settingsSlice.reducer
