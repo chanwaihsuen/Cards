@@ -3,10 +3,10 @@ import { createSlice } from '@reduxjs/toolkit'
 const settingsSlice = createSlice({
   name: 'settings',
   initialState: {
-    caps: false,
-    smallCaps: false,
-    picture: false,
-    word: false,
+    caps: true,
+    smallCaps: true,
+    picture: true,
+    word: true,
   },
   reducers: {
     setCaps: (state, action) => {

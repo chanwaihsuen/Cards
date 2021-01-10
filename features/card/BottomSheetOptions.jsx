@@ -10,13 +10,15 @@ const SCREEN_WIDTH = Dimensions.get('window').width
 
 export default function BottomSheetOptions({ sheetRef }) {
   const dispatch = useDispatch()
-  const useCaps = useSelector((state) => state.caps)
-  const smallCaps = useSelector((state) => state.caps)
+  const caps = useSelector((state) => state.caps)
+  const smallCaps = useSelector((state) => state.smallCaps)
+  const picture = useSelector((state) => state.picture)
+  const word = useSelector((state) => state.word)
 
-  const [isEnabledCaps, setIsEnabledCaps] = useState(useCaps)
+  const [isEnabledCaps, setIsEnabledCaps] = useState(caps)
   const [isEnabledSmallCaps, setIsEnabledSmallCaps] = useState(smallCaps)
-  const [isEnabledPicture, setIsEnabledPicture] = useState(false)
-  const [isEnabledWord, setIsEnabledWord] = useState(false)
+  const [isEnabledPicture, setIsEnabledPicture] = useState(picture)
+  const [isEnabledWord, setIsEnabledWord] = useState(word)
 
   const toggleCaps = () => setIsEnabledCaps((previousState) => !previousState)
   const toggleSmallCaps = () => setIsEnabledSmallCaps((previousState) => !previousState)

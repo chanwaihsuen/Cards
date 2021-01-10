@@ -24,37 +24,68 @@ export default function CardsScreen() {
   //   return Math.floor(Math.random() * 20) - 6
   // }
 
-  const OriginalCards = [
-    { word: 'bread', color: '#EEC45B', letter: 'b', uri: require('../assets/cards/b.png'), deg: '6' },
-    { word: 'egg', color: '#E59A48', letter: 'e', uri: require('../assets/cards/e.png'), deg: '9' },
-    { word: 'milk', color: '#ECC2C0', letter: 'm', uri: require('../assets/cards/m.png'), deg: '6' },
-    { word: 'peach', color: '#FAF1E2', letter: 'p', uri: require('../assets/cards/p.png'), deg: '9' },
+  const alphabeticalCards = [
+    { word: 'bread', color: '#EEC45B', letter: 'a', uri: require('../assets/cards/b.png'), deg: '6' },
+    { word: 'egg', color: '#E59A48', letter: 'b', uri: require('../assets/cards/e.png'), deg: '9' },
+    { word: 'milk', color: '#ECC2C0', letter: 'c', uri: require('../assets/cards/m.png'), deg: '6' },
+    { word: 'peach', color: '#FAF1E2', letter: 'd', uri: require('../assets/cards/p.png'), deg: '9' },
+    { word: 'bread', color: '#EEC45B', letter: 'e', uri: require('../assets/cards/b.png'), deg: '-6' },
+    { word: 'egg', color: '#E59A48', letter: 'f', uri: require('../assets/cards/e.png'), deg: '9' },
+    { word: 'milk', color: '#ECC2C0', letter: 'g', uri: require('../assets/cards/m.png'), deg: '-6' },
+    { word: 'peach', color: '#FAF1E2', letter: 'h', uri: require('../assets/cards/p.png'), deg: '-9' },
+    { word: 'bread', color: '#EEC45B', letter: 'i', uri: require('../assets/cards/b.png'), deg: '6' },
+  ]
+
+  const randomCards = [
+    { word: 'egg', color: '#E59A48', letter: 'b', uri: require('../assets/cards/e.png'), deg: '9' },
+    { word: 'bread', color: '#EEC45B', letter: 'i', uri: require('../assets/cards/b.png'), deg: '6' },
+    { word: 'milk', color: '#ECC2C0', letter: 'g', uri: require('../assets/cards/m.png'), deg: '-6' },
+    { word: 'bread', color: '#EEC45B', letter: 'e', uri: require('../assets/cards/b.png'), deg: '-6' },
+    { word: 'bread', color: '#EEC45B', letter: 'a', uri: require('../assets/cards/b.png'), deg: '6' },
+    { word: 'milk', color: '#ECC2C0', letter: 'c', uri: require('../assets/cards/m.png'), deg: '6' },
+    { word: 'peach', color: '#FAF1E2', letter: 'd', uri: require('../assets/cards/p.png'), deg: '9' },
+    { word: 'egg', color: '#E59A48', letter: 'f', uri: require('../assets/cards/e.png'), deg: '9' },
+    { word: 'peach', color: '#FAF1E2', letter: 'h', uri: require('../assets/cards/p.png'), deg: '-9' },
   ]
 
   useEffect(() => {
     position.setValue({ x: 0, y: 0 })
   }, [currentIndex])
 
-  let cards = [...OriginalCards]
-
-  if (sortType === 'random') {
-    cards.sort(() => Math.random() - 0.5)
-  }
-
-  const shuffle = (a) => {
-    for (let i = a.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1))
-      ;[a[i], a[j]] = [a[j], a[i]]
-    }
-    return a
-  }
+  // useEffect(() => {
+  //   if (sortType === 'alphabetical') {
+  //   }
+  //   // cards.sort(() => Math.random() - 0.5)
+  // }, [sortType])
 
   const panResponserReleaseStart = () => {
     setCurrentIndex(currentIndex + 1)
   }
 
   const renderCards = () => {
-    return cards
+    if (sortType === 'random') {
+      return randomCards
+        .map((item, i) => {
+          if (i < currentIndex) {
+            return null
+          } else {
+            return (
+              <AnimatedCard
+                key={i}
+                totalLength={randomCards.length}
+                currentIndex={currentIndex}
+                index={i}
+                item={item}
+                position={position}
+                panResponserReleaseStart={panResponserReleaseStart}
+              />
+            )
+          }
+        })
+        .reverse()
+    }
+
+    return alphabeticalCards
       .map((item, i) => {
         if (i < currentIndex) {
           return null
@@ -62,7 +93,7 @@ export default function CardsScreen() {
           return (
             <AnimatedCard
               key={i}
-              totalLength={cards.length}
+              totalLength={alphabeticalCards.length}
               currentIndex={currentIndex}
               index={i}
               item={item}
