@@ -15,7 +15,7 @@ const SCREEN_WIDTH = Dimensions.get('window').width
 
 export default function CardsScreen() {
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [sortType, setSortType] = useState('random')
+  const [sortType, setSortType] = useState('alphabetical')
   const sheetRef = React.useRef(null)
 
   const position = new Animated.ValueXY()
@@ -24,6 +24,7 @@ export default function CardsScreen() {
   //   return Math.floor(Math.random() * 20) - 6
   // }
 
+  // HARDCODE FOR NOW UNTIL ILLUSTRATIONS ARE COMPLETED
   const alphabeticalCards = [
     { word: 'bread', color: '#EEC45B', letter: 'a', uri: require('../assets/cards/b.png'), deg: '6' },
     { word: 'egg', color: '#E59A48', letter: 'b', uri: require('../assets/cards/e.png'), deg: '9' },
@@ -36,6 +37,7 @@ export default function CardsScreen() {
     { word: 'bread', color: '#EEC45B', letter: 'i', uri: require('../assets/cards/b.png'), deg: '6' },
   ]
 
+  // HARDCODE FOR NOW UNTIL ILLUSTRATIONS ARE COMPLETED
   const randomCards = [
     { word: 'egg', color: '#E59A48', letter: 'b', uri: require('../assets/cards/e.png'), deg: '9' },
     { word: 'bread', color: '#EEC45B', letter: 'i', uri: require('../assets/cards/b.png'), deg: '6' },
